@@ -44,7 +44,7 @@ export default function Contact() {
             Connect on LinkedIn
           </a>
           <a
-            href="/resume.pdf"
+            href="/portofolio/resume.pdf"
             download="Peter_Phoenix_Resume.pdf"
             className="inline-flex items-center gap-2 px-8 py-3 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors duration-200"
           >

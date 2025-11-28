@@ -41,7 +41,7 @@ export default function Hero() {
             </span>
           </a>
           <a
-            href="/resume.pdf"
+            href="/portofolio/resume.pdf"
             download="Peter_Phoenix_Resume.pdf"
             className="group px-8 py-3 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-green-500/50 flex items-center gap-2"
           >
