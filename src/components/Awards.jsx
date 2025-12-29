@@ -8,9 +8,12 @@ function AwardCard({ award, index }) {
     <div
       ref={ref}
       className={`bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border-l-4 border-yellow-500 hover:-translate-y-1 group ${
-        isVisible ? 'opacity-100 animate-fadeInUp' : 'opacity-0'
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
-      style={{ animationDelay: `${index * 0.15}s` }}
+      style={{
+        transitionDelay: `${index * 150}ms`,
+        transitionDuration: '600ms'
+      }}
     >
       <div className="flex justify-between items-start mb-3">
         <div className="flex items-start gap-3 flex-1">
@@ -36,8 +39,8 @@ export default function Awards() {
       <div className="max-w-6xl mx-auto">
         <h2
           ref={ref}
-          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white ${
-            isVisible ? 'opacity-100 animate-fadeInUp' : 'opacity-0'
+          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white transition-all duration-600 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           Awards & Recognition

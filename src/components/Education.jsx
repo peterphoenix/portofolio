@@ -10,16 +10,16 @@ export default function Education() {
       <div className="max-w-6xl mx-auto">
         <h2
           ref={ref}
-          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white ${
-            isVisible ? 'opacity-100 animate-fadeInUp' : 'opacity-0'
+          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white transition-all duration-600 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           Education
         </h2>
         <div
           ref={cardRef}
-          className={`bg-white dark:bg-gray-900 rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border-t-4 border-blue-600 ${
-            cardVisible ? 'opacity-100 animate-fadeInUp' : 'opacity-0'
+          className={`bg-white dark:bg-gray-900 rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-600 border-t-4 border-blue-600 ${
+            cardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">

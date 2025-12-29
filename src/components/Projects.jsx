@@ -8,9 +8,12 @@ function ProjectCard({ project, index }) {
     <div
       ref={ref}
       className={`bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-500/20 dark:hover:border-blue-400/20 group hover:-translate-y-2 ${
-        isVisible ? 'opacity-100 animate-fadeInUp' : 'opacity-0'
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
-      style={{ animationDelay: `${index * 0.15}s` }}
+      style={{
+        transitionDelay: `${index * 150}ms`,
+        transitionDuration: '600ms'
+      }}
     >
       {project.link ? (
         <a
@@ -75,8 +78,8 @@ export default function Projects() {
       <div className="max-w-6xl mx-auto">
         <h2
           ref={ref}
-          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white ${
-            isVisible ? 'opacity-100 animate-fadeInUp' : 'opacity-0'
+          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white transition-all duration-600 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           Featured Projects
