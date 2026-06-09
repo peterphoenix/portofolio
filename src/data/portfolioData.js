@@ -9,10 +9,37 @@ export const personalInfo = {
 
 export const experience = [
   {
+    company: "Rakuten",
+    location: "Tokyo, Japan",
+    role: "Software Engineer, Cloud Platform",
+    period: "May 2026 – Present",
+    description: "Global technology, fintech & e-commerce group",
+    highlights: [
+      "Operate and automate Rakuten's internal cloud platform, node provisioning, networking (subnets and routing), server fleet, and deployments.",
+      "Led the zero-downtime decommissioning of a legacy Kubernetes cluster, migrating 7,629 pods across 280 namespaces on 502 nodes to new infrastructure with no tenant-facing downtime.",
+      "Re-architected the cluster proxy logic in Python to be fully configuration-driven, making it significantly more flexible and future-proof.",
+      "Authored operational runbooks, technical documentation, and proof-of-concepts; contributed across Python and Go using Jenkins, Kubernetes, and Terraform."
+    ]
+  },
+  {
+    company: "NilOps",
+    location: "Remote",
+    role: "Founding Engineer",
+    period: "January 2026 – Present",
+    description: "AI-native security startup",
+    highlights: [
+      "Building three products (AI penetration testing, AI infrastructure management, and AI security scanner); primary owner of the security scanner, built in Go.",
+      "Built external attack-surface scanning that, from a single domain, runs comprehensive automated scans of an organization's public web surface and generates detailed security assessment reports.",
+      "Built multi-cloud scanning for GCP and AWS that detects security misconfigurations and surfaces cost-optimization opportunities across cloud accounts.",
+      "Built a VM hardening agent for continuous host-level security, detecting malware, unauthorized access, misconfigurations, and recommending controls such as rate limiting and privilege restriction.",
+      "Own end-to-end delivery infrastructure: CI/CD, deployments, Cloudflare, IAM, authentication, database, mailing system, and company domain management."
+    ]
+  },
+  {
     company: "GoTu",
     location: "Florida, United States",
     role: "Senior Software Engineer",
-    period: "January 2025 – Present",
+    period: "January 2025 – December 2025",
     description: "US-based leading dental talent marketplace",
     highlights: [
       "Discovered and fixed an old issue in the notification process for new job postings, reducing the P95 process time by over 90%, significantly improving system performance and reliability.",
