@@ -4,7 +4,7 @@ export const personalInfo = {
   email: "peterphoenix00@gmail.com",
   phone: "+6281218006237",
   linkedin: "linkedin.com/in/peter-phoenix",
-  bio: "Senior Software Engineer with 4+ years of experience building scalable backend systems, microservices, and cloud infrastructure. Specialized in Go, PostgreSQL, Kubernetes, and distributed systems. ICPC Bronze Medallist with a passion for optimization and system design."
+  bio: "Senior Software Engineer with 5+ years of experience building scalable backend systems, microservices, and cloud infrastructure. Specialized in Go, PostgreSQL, Kubernetes, and distributed systems. ICPC Bronze Medallist with a passion for optimization and system design."
 };
 
 export const experience = [
