@@ -23,7 +23,9 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // ^m$ — motion's `m` proxy is referenced only inside JSX (<m.div>),
+      // which core no-unused-vars cannot see
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]|^m$' }],
     },
   },
 ])

@@ -1,69 +1,140 @@
+import { m, useReducedMotion } from 'motion/react';
+import { ArrowDown, FileDown, Mail } from 'lucide-react';
+import LinkedinIcon from './ui/LinkedinIcon';
 import { personalInfo } from '../data/portfolioData';
+import useTypewriter from '../hooks/useTypewriter';
+
+const resumeUrl = `${import.meta.env.BASE_URL}resume.pdf`;
+
+const TYPED_COMMANDS = ['./resume.pdf', 'open linkedin', 'mail peter'];
+
+const terminal = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.35, delayChildren: 0.4 } },
+};
+
+const line = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+};
 
 export default function Hero() {
+  const typed = useTypewriter(TYPED_COMMANDS);
+  const reducedMotion = useReducedMotion();
+  const bioLines = personalInfo.bio.split('. ').map((s) => (s.endsWith('.') ? s : `${s}.`));
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center px-6 py-20 bg-white dark:bg-gray-900 transition-colors overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 dark:bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/10 dark:bg-purple-500/10 rounded-full blur-3xl animate-float delay-300"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-400/5 dark:bg-pink-500/5 rounded-full blur-3xl animate-float delay-500"></div>
-      </div>
+    <section
+      id="home"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 pb-16 pt-24 sm:px-6"
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-grid-dots bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_65%_65%_at_50%_45%,black,transparent)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute left-1/2 top-1/2 h-[480px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-faint blur-3xl"
+      />
 
-      <div className="relative max-w-4xl mx-auto text-center">
-        {/* Status Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 animate-fadeIn">
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-          </span>
-          <span className="text-sm font-medium text-green-700 dark:text-green-400">
-            Open to opportunities
-          </span>
+      <m.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="relative w-full max-w-3xl rounded-xl border border-ink-border bg-ink-surface shadow-2xl shadow-glow"
+      >
+        <div className="flex items-center gap-2 rounded-t-xl border-b border-ink-border bg-ink-raised px-4 py-3">
+          <span className="h-3 w-3 rounded-full bg-ink-edge" aria-hidden="true" />
+          <span className="h-3 w-3 rounded-full bg-ink-edge" aria-hidden="true" />
+          <span className="h-3 w-3 rounded-full bg-accent/70" aria-hidden="true" />
+          <span className="ml-3 font-mono text-xs text-text-dim">peter@phoenix:~</span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 text-gradient-animated opacity-0 animate-fadeInUp">
-          {personalInfo.name}
-        </h1>
-        <h2 className="text-2xl md:text-3xl text-gray-700 dark:text-gray-300 mb-8 font-light opacity-0 animate-fadeInUp delay-100">
-          {personalInfo.title}
-        </h2>
-        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-12 leading-relaxed max-w-3xl mx-auto opacity-0 animate-fadeInUp delay-200">
-          {personalInfo.bio}
-        </p>
-        <div className="flex flex-wrap justify-center gap-4 opacity-0 animate-fadeInUp delay-300">
-          <a
-            href={`mailto:${personalInfo.email}`}
-            className="group px-8 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/50"
+        <m.div
+          variants={terminal}
+          initial="hidden"
+          animate="visible"
+          className="p-6 font-mono text-sm md:p-10"
+        >
+          <m.p variants={line} className="text-text-dim">
+            <span className="text-accent">$</span> whoami
+          </m.p>
+          <m.h1
+            variants={line}
+            className="mt-2 font-sans text-4xl font-bold tracking-tight text-text-bright sm:text-5xl md:text-6xl"
           >
-            <span className="inline-block group-hover:scale-110 transition-transform">
-              Get in Touch
-            </span>
-          </a>
-          <a
-            href="/portofolio/resume.pdf"
-            download="Peter_Phoenix_Resume.pdf"
-            className="group px-8 py-3 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-green-500/50 flex items-center gap-2"
+            {personalInfo.name}
+          </m.h1>
+
+          <m.p variants={line} className="mt-6 text-text-dim">
+            <span className="text-accent">$</span> cat role.txt
+          </m.p>
+          <m.p variants={line} className="mt-2 font-sans text-xl text-text-body md:text-2xl">
+            {personalInfo.title}
+          </m.p>
+
+          <m.div
+            variants={line}
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent-dim px-3 py-1.5 text-xs text-accent"
           >
-            <svg className="w-5 h-5 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <span className="inline-block group-hover:scale-110 transition-transform">
-              Download CV
-            </span>
-          </a>
-          <a
-            href={`https://${personalInfo.linkedin}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group px-8 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:border-blue-600 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 hover:scale-105"
-          >
-            <span className="inline-block group-hover:scale-110 transition-transform">
-              LinkedIn
-            </span>
-          </a>
-        </div>
-      </div>
+            <span className="h-2 w-2 rounded-full bg-accent animate-pulse-dot" aria-hidden="true" />
+            systemd: open-to-work
+          </m.div>
+
+          <m.div variants={line} className="mt-6 space-y-1 text-text-body">
+            {bioLines.map((sentence) => (
+              <p key={sentence} className="leading-relaxed">
+                <span className="select-none text-text-dim"># </span>
+                {sentence}
+              </p>
+            ))}
+          </m.div>
+
+          <m.p variants={line} className="mt-6 text-text-bright" aria-hidden="true">
+            <span className="text-accent">$</span> {typed}
+            <span className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 bg-accent animate-blink" />
+          </m.p>
+
+          <m.div variants={line} className="mt-8 flex flex-wrap gap-3">
+            <a
+              href={resumeUrl}
+              download="Peter_Phoenix_Resume.pdf"
+              className="inline-flex items-center gap-2 rounded border border-accent/50 px-4 py-2 text-xs text-accent transition hover:border-accent hover:bg-accent-dim hover:shadow-glow-sm sm:text-sm"
+            >
+              <FileDown size={15} aria-hidden="true" />
+              [ download resume ]
+            </a>
+            <a
+              href={`mailto:${personalInfo.email}`}
+              className="inline-flex items-center gap-2 rounded border border-ink-edge px-4 py-2 text-xs text-text-body transition hover:border-accent hover:text-accent sm:text-sm"
+            >
+              <Mail size={15} aria-hidden="true" />
+              [ get in touch ]
+            </a>
+            <a
+              href={`https://${personalInfo.linkedin}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded border border-ink-edge px-4 py-2 text-xs text-text-body transition hover:border-accent hover:text-accent sm:text-sm"
+            >
+              <LinkedinIcon size={15} />
+              [ linkedin ]
+            </a>
+          </m.div>
+        </m.div>
+      </m.div>
+
+      <m.a
+        href="#experience"
+        aria-label="Scroll to experience"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs text-text-dim transition-colors hover:text-accent"
+        animate={reducedMotion ? undefined : { y: [0, 6, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <span className="inline-flex items-center gap-1">
+          scroll <ArrowDown size={12} aria-hidden="true" />
+        </span>
+      </m.a>
     </section>
   );
 }

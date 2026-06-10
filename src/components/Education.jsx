@@ -1,76 +1,63 @@
+import { m } from 'motion/react';
+import { GraduationCap } from 'lucide-react';
 import { education } from '../data/portfolioData';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import SectionHeading from './ui/SectionHeading';
+import { fadeUp, staggerContainer, viewport } from '../lib/motionVariants';
 
 export default function Education() {
-  const [ref, isVisible] = useScrollAnimation();
-  const [cardRef, cardVisible] = useScrollAnimation();
-
   return (
-    <section id="education" className="py-20 px-6 bg-gray-50 dark:bg-gray-800 transition-colors">
-      <div className="max-w-6xl mx-auto">
-        <h2
-          ref={ref}
-          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white transition-all duration-600 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+    <section id="education" className="px-6 py-24">
+      <div className="mx-auto max-w-4xl">
+        <SectionHeading index="03" title="Education" slug="education" />
+
+        <m.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="rounded-lg border border-ink-border bg-ink-surface p-6 md:p-8"
         >
-          Education
-        </h2>
-        <div
-          ref={cardRef}
-          className={`bg-white dark:bg-gray-900 rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-600 border-t-4 border-blue-600 ${
-            cardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
-            <div>
-              <div className="flex items-start gap-3 mb-2">
-                <span className="text-2xl">🎓</span>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {education.degree}
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="flex items-start gap-4">
+              <span className="rounded border border-ink-border bg-ink-raised p-2.5 text-accent">
+                <GraduationCap size={22} aria-hidden="true" />
+              </span>
+              <div>
+                <h3 className="text-xl font-semibold text-text-bright">
+                  {education.institution}
                 </h3>
+                <p className="mt-1 text-sm">{education.degree}</p>
+                <p className="mt-2 inline-block rounded-full border border-accent/30 bg-accent-dim px-3 py-1 font-mono text-xs text-accent">
+                  gpa={education.gpa.replace(/\s/g, '')}
+                </p>
               </div>
-              <p className="text-xl text-blue-600 dark:text-blue-400 font-semibold mt-1 ml-11">
-                {education.institution}
-              </p>
-              <p className="text-gray-600 dark:text-gray-400 mt-2 ml-11 font-medium">
-                GPA: <span className="text-green-600 dark:text-green-400">{education.gpa}</span>
-              </p>
             </div>
-            <div className="mt-2 md:mt-0 text-gray-600 dark:text-gray-400 md:text-right">
-              <p className="font-medium">{education.period}</p>
-              <p className="text-sm">{education.location}</p>
+            <div className="font-mono text-xs text-text-dim md:text-right">
+              <p>{education.period}</p>
+              <p className="mt-1">{education.location.toLowerCase()}</p>
             </div>
           </div>
 
-          <div className="mt-8">
-            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-              <span className="text-blue-600 dark:text-blue-400">›</span>
-              Activities & Achievements
-            </h4>
-            <div className="space-y-6">
-              {education.activities.map((activity, index) => (
-                <div
-                  key={index}
-                  className="relative border-l-2 border-blue-600 dark:border-blue-400 pl-6 pb-4 hover:border-blue-400 dark:hover:border-blue-300 transition-colors group"
-                >
-                  <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-600 dark:bg-blue-400 rounded-full group-hover:scale-125 transition-transform"></div>
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-                    <h5 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {activity.title}
-                    </h5>
-                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mt-1 md:mt-0 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full md:ml-4">
-                      {activity.period}
-                    </span>
-                  </div>
-                  <p className="text-gray-700 dark:text-gray-300 mt-2 leading-relaxed">
-                    {activity.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+          <m.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="mt-8 grid gap-4 sm:grid-cols-2"
+          >
+            {education.activities.map((activity) => (
+              <m.div
+                key={activity.title}
+                variants={fadeUp}
+                className="rounded border border-ink-border/60 bg-ink-base/40 p-4"
+              >
+                <h4 className="text-sm font-medium text-text-bright">{activity.title}</h4>
+                <p className="mt-1 font-mono text-xs text-text-dim">{activity.period}</p>
+                <p className="mt-2 text-sm leading-relaxed">{activity.description}</p>
+              </m.div>
+            ))}
+          </m.div>
+        </m.div>
       </div>
     </section>
   );

@@ -5,42 +5,42 @@
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF.svg)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC.svg)](https://tailwindcss.com/)
 
-A modern, minimalist portfolio website built with React, Vite, and Tailwind CSS. Features dark mode, smooth animations, and a fully responsive design.
+A terminal-inspired "dark engineering" portfolio built with React, Vite, and Tailwind CSS. Near-black canvas, one electric green accent, monospace details, and motion-powered animations.
 
 ## ✨ Features
 
-- 🎨 **Modern Design**: Clean and minimalist interface with smooth animations
-- 🌓 **Dark Mode**: Toggle between light and dark themes with persistent preference
+- 🖥️ **Terminal Hero**: `$ whoami` prompt window with a typewriter command line and blinking cursor
+- 🟢 **Dark Engineering Aesthetic**: Single dark theme with phosphor-green accents and glowing borders
+- 📜 **Git-log Experience Timeline**: Commit nodes with a `HEAD` tag on the current role and diff-style `+` highlights
 - 📱 **Fully Responsive**: Works seamlessly on desktop, tablet, and mobile
-- 🍔 **Mobile Navigation**: Intuitive hamburger menu for mobile browsing
-- ⚡ **Fast Performance**: Built with Vite for lightning-fast load times
-- 🎭 **Scroll Animations**: Elements fade in beautifully as you scroll
+- 🎭 **Scroll Animations**: Sections reveal in-view via `motion` (Framer Motion successor), with full `prefers-reduced-motion` support
 - 📄 **CV Download**: One-click resume download functionality
-- ♿ **Accessible**: Semantic HTML and ARIA labels for better accessibility
+- ♿ **Accessible**: Semantic HTML, ARIA labels, visible focus rings, AA contrast
+- ⚡ **Fast**: Self-hosted variable fonts, `LazyMotion` code-splitting, Vite build
 
 ### Sections
 
-- **Hero**: Eye-catching landing with animated gradient text and status badge
-- **Experience**: Timeline of work history with detailed highlights
-- **Projects**: Showcase of featured projects with live links
+- **Hero**: Terminal window with prompt-style intro and status badge
+- **Experience**: Git-log style timeline of work history
+- **Projects**: File-card showcase (`~/projects/<slug>`) with live links
 - **Education**: Academic background and activities
-- **Skills**: Organized display of technologies and tools
+- **Skills**: `$ ls -la ./skills` terminal panel of technologies
 - **Awards**: Recognition and achievements
-- **Contact**: Easy ways to get in touch
+- **Contact**: `$ ping peter --interactive`
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js 18.x or higher
-- npm or yarn
+- npm
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/portfolio-site.git
-   cd portfolio-site
+   git clone https://github.com/peterphoenix/portofolio.git
+   cd portofolio
    ```
 
 2. **Install dependencies**
@@ -59,7 +59,7 @@ A modern, minimalist portfolio website built with React, Vite, and Tailwind CSS.
    ```
 
 5. **Open in browser**
-   - Navigate to `http://localhost:5173/`
+   - Navigate to `http://localhost:5173/portofolio/`
 
 ### Building for Production
 
@@ -67,13 +67,7 @@ A modern, minimalist portfolio website built with React, Vite, and Tailwind CSS.
 npm run build
 ```
 
-The optimized files will be in the `dist` folder.
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
+The optimized files will be in the `dist` folder. Preview with `npm run preview`.
 
 ## 🎨 Customization
 
@@ -97,113 +91,59 @@ Update the following sections:
 - `experience`: Work history and achievements
 - `projects`: Your projects with links and highlights
 - `education`: Academic background
-- `skills`: Technologies you work with
+- `skills` + `skillCategories`: Technologies you work with
 - `awards`: Recognition and achievements
 
 ### Customize Styling
 
-**Colors and Theme**
-- Edit `tailwind.config.js` to change color scheme
-- Modify `src/index.css` for custom animations
-- Use Tailwind's `dark:` modifier for dark mode colors
-
-**Animations**
-- Custom animations defined in `src/index.css`
-- Scroll animations use Intersection Observer (see `src/hooks/useScrollAnimation.js`)
-
-### Dark Mode
-
-Dark mode is implemented using:
-- React Context API (`src/context/DarkModeContext.jsx`)
-- Tailwind CSS dark mode (class strategy)
-- LocalStorage for persistence
-- Automatic system preference detection
+- Design tokens (`ink`, `text`, `accent` colors, glow shadows, keyframes) live in `tailwind.config.js`
+- Global styles (selection color, scrollbar, focus rings, reduced motion) in `src/index.css`
+- Shared animation variants in `src/lib/motionVariants.js`
+- Fonts: JetBrains Mono + Space Grotesk variable fonts, self-hosted via Fontsource (imported in `src/main.jsx`)
 
 ## 📁 Project Structure
 
 ```
-portfolio-site/
+portofolio/
 ├── public/
-│   ├── resume.pdf              # Your CV (add your own)
-│   └── vite.svg               # Favicon
+│   ├── resume.pdf                 # Your CV (add your own)
+│   └── favicon.svg                # Terminal-style favicon
 ├── src/
-│   ├── components/            # React components
-│   │   ├── Navigation.jsx     # Nav bar with mobile menu & dark mode
-│   │   ├── Hero.jsx          # Landing section
-│   │   ├── Experience.jsx    # Work experience timeline
-│   │   ├── Projects.jsx      # Project showcase
-│   │   ├── Education.jsx     # Education section
-│   │   ├── Skills.jsx        # Skills display
-│   │   ├── Awards.jsx        # Awards & recognition
-│   │   └── Contact.jsx       # Contact information
-│   ├── context/
-│   │   └── DarkModeContext.jsx # Dark mode state
+│   ├── components/
+│   │   ├── Navigation.jsx         # Indexed nav, active-section tracking, mobile menu
+│   │   ├── ScrollProgress.jsx     # Accent scroll progress bar
+│   │   ├── Hero.jsx               # Terminal window hero
+│   │   ├── Experience.jsx         # Git-log timeline
+│   │   ├── Projects.jsx           # File cards
+│   │   ├── Education.jsx          # Education card
+│   │   ├── Skills.jsx             # ls -la terminal panel
+│   │   ├── Awards.jsx             # Award cards
+│   │   ├── Contact.jsx            # Contact section
+│   │   ├── Footer.jsx             # $ exit 0
+│   │   └── ui/
+│   │       ├── SectionHeading.jsx # 01. Heading // slug
+│   │       └── LinkedinIcon.jsx   # Local brand icon
 │   ├── hooks/
-│   │   └── useScrollAnimation.js # Scroll animation hook
+│   │   ├── useActiveSection.js    # IntersectionObserver nav highlighting
+│   │   └── useTypewriter.js       # Typing animation (reduced-motion aware)
+│   ├── lib/
+│   │   └── motionVariants.js      # Shared animation variants
 │   ├── data/
-│   │   └── portfolioData.js  # All content (UPDATE THIS!)
-│   ├── App.jsx               # Main app component
-│   ├── main.jsx             # Entry point
-│   └── index.css            # Global styles & animations
-├── .gitignore
+│   │   └── portfolioData.js       # All content (UPDATE THIS!)
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
 ├── index.html
 ├── package.json
 ├── tailwind.config.js
-├── postcss.config.js
-├── vite.config.js
-└── LICENSE
+└── vite.config.js
 ```
 
 ## 🌐 Deployment
 
-### Vercel (Recommended)
+Deploys automatically to **GitHub Pages** on push to `main` via `.github/workflows/deploy.yml`. The Vite `base` is set to `/portofolio/` in `vite.config.js` — change it if your repo name differs.
 
-1. Push your code to GitHub
-2. Import project to [Vercel](https://vercel.com/)
-3. Vercel auto-detects Vite
-4. Deploy!
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/portfolio-site)
-
-### Netlify
-
-1. Push to GitHub
-2. Connect repo to [Netlify](https://netlify.com/)
-3. Build command: `npm run build`
-4. Publish directory: `dist`
-5. Deploy!
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/yourusername/portfolio-site)
-
-### GitHub Pages
-
-1. Install gh-pages:
-   ```bash
-   npm install -D gh-pages
-   ```
-
-2. Add to `package.json`:
-   ```json
-   {
-     "scripts": {
-       "predeploy": "npm run build",
-       "deploy": "gh-pages -d dist"
-     }
-   }
-   ```
-
-3. Deploy:
-   ```bash
-   npm run deploy
-   ```
-
-### Other Platforms
-
-Works with any static hosting:
-- **Cloudflare Pages**
-- **Render**
-- **Firebase Hosting**
-- **AWS S3 + CloudFront**
+Also works on any static host (Vercel, Netlify, Cloudflare Pages) — build command `npm run build`, publish directory `dist` (set `base: '/'` for root-domain hosting).
 
 ## 🛠️ Technologies
 
@@ -212,35 +152,13 @@ Works with any static hosting:
 | **React 19** | UI library |
 | **Vite 5** | Build tool & dev server |
 | **Tailwind CSS 3** | Utility-first CSS framework |
-| **PostCSS** | CSS processing |
-| **ESLint** | Code linting |
-| **Context API** | State management |
-| **Intersection Observer** | Scroll animations |
-
-## 🎯 Performance
-
-- ⚡ Lighthouse Score: 95+
-- 📦 Optimized bundle size
-- 🚀 Fast page loads with Vite
-- 🎨 Smooth 60fps animations
-- 📱 Mobile-first responsive design
-
-## 🤝 Contributing
-
-This is a personal portfolio template. Feel free to:
-- Fork it for your own use
-- Submit issues for bugs
-- Suggest improvements via PRs
+| **motion** | Animations (`LazyMotion` + `m` for a small bundle) |
+| **lucide-react** | Icons |
+| **Fontsource** | Self-hosted JetBrains Mono & Space Grotesk variable fonts |
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 💡 Inspiration & Credits
-
-- Design inspired by modern portfolio trends
-- Built with modern React best practices
-- Animations crafted for smooth UX
 
 ## 📬 Contact
 

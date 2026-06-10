@@ -1,55 +1,55 @@
+import { m } from 'motion/react';
+import { Medal, ScrollText } from 'lucide-react';
 import { awards } from '../data/portfolioData';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import SectionHeading from './ui/SectionHeading';
+import { fadeUp, staggerContainer, viewport } from '../lib/motionVariants';
 
-function AwardCard({ award, index }) {
-  const [ref, isVisible] = useScrollAnimation();
-
-  return (
-    <div
-      ref={ref}
-      className={`bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border-l-4 border-yellow-500 hover:-translate-y-1 group ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
-      style={{
-        transitionDelay: `${index * 150}ms`,
-        transitionDuration: '600ms'
-      }}
-    >
-      <div className="flex justify-between items-start mb-3">
-        <div className="flex items-start gap-3 flex-1">
-          <span className="text-2xl group-hover:scale-125 transition-transform">🏆</span>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
-            {award.title}
-          </h3>
-        </div>
-        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 ml-4 whitespace-nowrap bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full">
-          {award.date}
-        </span>
-      </div>
-      <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-11">{award.description}</p>
-    </div>
-  );
-}
+const ICONS = [Medal, ScrollText];
 
 export default function Awards() {
-  const [ref, isVisible] = useScrollAnimation();
-
   return (
-    <section id="awards" className="py-20 px-6 bg-gray-50 dark:bg-gray-800 transition-colors">
-      <div className="max-w-6xl mx-auto">
-        <h2
-          ref={ref}
-          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white transition-all duration-600 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+    <section id="awards" className="px-6 py-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading index="05" title="Awards" slug="awards" />
+
+        <m.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="grid gap-6 md:grid-cols-2"
         >
-          Awards & Recognition
-        </h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {awards.map((award, index) => (
-            <AwardCard key={index} award={award} index={index} />
-          ))}
-        </div>
+          {awards.map((award, index) => {
+            const Icon = ICONS[index % ICONS.length];
+            const year = award.date.split(' ').pop();
+            return (
+              <m.div
+                key={award.title}
+                variants={fadeUp}
+                className="group rounded-lg border border-ink-border border-l-2 border-l-accent bg-ink-surface p-6 transition hover:border-accent/40 hover:border-l-accent hover:shadow-glow-sm"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <p className="font-mono text-xs text-text-dim">
+                    {'// '}
+                    {year}
+                  </p>
+                  <span className="rounded border border-ink-border px-2 py-0.5 font-mono text-xs text-text-dim">
+                    {award.date}
+                  </span>
+                </div>
+                <div className="mt-4 flex items-start gap-3">
+                  <span className="shrink-0 rounded border border-ink-border bg-ink-raised p-2 text-accent">
+                    <Icon size={18} aria-hidden="true" />
+                  </span>
+                  <h3 className="text-base font-semibold leading-snug text-text-bright md:text-lg">
+                    {award.title}
+                  </h3>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed">{award.description}</p>
+              </m.div>
+            );
+          })}
+        </m.div>
       </div>
     </section>
   );

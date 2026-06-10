@@ -1,94 +1,84 @@
+import { m } from 'motion/react';
+import { ExternalLink, Folder } from 'lucide-react';
 import { projects } from '../data/portfolioData';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import SectionHeading from './ui/SectionHeading';
+import { fadeUp, staggerContainer, viewport } from '../lib/motionVariants';
 
-function ProjectCard({ project, index }) {
-  const [ref, isVisible] = useScrollAnimation();
+const slugify = (title) => title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+function ProjectCard({ project }) {
+  const slug = slugify(project.title);
+  const Wrapper = project.link ? 'a' : 'div';
+  const wrapperProps = project.link
+    ? { href: project.link, target: '_blank', rel: 'noopener noreferrer' }
+    : {};
 
   return (
-    <div
-      ref={ref}
-      className={`bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-500/20 dark:hover:border-blue-400/20 group hover:-translate-y-2 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
-      style={{
-        transitionDelay: `${index * 150}ms`,
-        transitionDuration: '600ms'
-      }}
-    >
-      {project.link ? (
-        <a
-          href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block mb-3"
-        >
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-2">
-            {project.title}
-            <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </h3>
-        </a>
-      ) : (
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+    <m.div variants={fadeUp} className="h-full">
+      <Wrapper
+        {...wrapperProps}
+        className="group flex h-full flex-col rounded-lg border border-ink-border bg-ink-surface p-6 transition hover:-translate-y-1 hover:border-accent/40 hover:shadow-glow-sm"
+      >
+        <div className="flex items-center gap-2 font-mono text-xs text-text-dim">
+          <Folder size={14} className="shrink-0 text-accent" aria-hidden="true" />
+          <span className="truncate">~/projects/{slug}</span>
+          {project.link && (
+            <ExternalLink
+              size={14}
+              className="ml-auto shrink-0 transition-colors group-hover:text-accent"
+              aria-hidden="true"
+            />
+          )}
+        </div>
+
+        <h3 className="mt-4 text-lg font-semibold text-text-bright transition-colors group-hover:text-accent">
           {project.title}
         </h3>
-      )}
-      <p className="text-gray-600 dark:text-gray-400 mb-6">{project.description}</p>
-      <ul className="space-y-2 mb-6">
-        {project.highlights.map((highlight, idx) => (
-          <li key={idx} className="flex items-start group/item">
-            <span className="text-blue-600 dark:text-blue-400 mr-3 mt-1 flex-shrink-0 transition-transform group-hover/item:scale-125">•</span>
-            <span className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{highlight}</span>
-          </li>
-        ))}
-      </ul>
-      <div className="flex flex-wrap gap-2 items-center">
-        {project.tags.map((tag, idx) => (
-          <span
-            key={idx}
-            className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors cursor-default"
-          >
-            {tag}
-          </span>
-        ))}
-        {project.link && (
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-auto px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors flex items-center gap-2"
-          >
-            Visit Site
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-        )}
-      </div>
-    </div>
+        <p className="mt-2 text-sm leading-relaxed">{project.description}</p>
+
+        <ul className="mt-4 space-y-2">
+          {project.highlights.slice(0, 2).map((highlight) => (
+            <li key={highlight} className="flex gap-2 text-sm leading-relaxed text-text-dim">
+              <span className="select-none text-accent" aria-hidden="true">
+                ▸
+              </span>
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-auto flex flex-wrap gap-2 pt-5">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded border border-ink-border px-2 py-0.5 font-mono text-[11px] text-text-dim transition-colors group-hover:border-ink-edge"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </Wrapper>
+    </m.div>
   );
 }
 
 export default function Projects() {
-  const [ref, isVisible] = useScrollAnimation();
-
   return (
-    <section id="projects" className="py-20 px-6 bg-white dark:bg-gray-900 transition-colors">
-      <div className="max-w-6xl mx-auto">
-        <h2
-          ref={ref}
-          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white transition-all duration-600 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+    <section id="projects" className="px-6 py-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading index="02" title="Projects" slug="projects" />
+
+        <m.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-          Featured Projects
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} />
+          {projects.map((project) => (
+            <ProjectCard key={project.title} project={project} />
           ))}
-        </div>
+        </m.div>
       </div>
     </section>
   );

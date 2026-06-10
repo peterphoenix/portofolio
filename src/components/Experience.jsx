@@ -1,66 +1,66 @@
+import { m } from 'motion/react';
 import { experience } from '../data/portfolioData';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import SectionHeading from './ui/SectionHeading';
+import { fadeUp, staggerContainer, viewport } from '../lib/motionVariants';
 
-function ExperienceCard({ job, index }) {
-  const [ref, isVisible] = useScrollAnimation();
-
+function ExperienceEntry({ job, isHead }) {
   return (
-    <div
-      ref={ref}
-      className={`bg-white dark:bg-gray-900 rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-blue-500/20 group ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
-      style={{
-        transitionDelay: `${index * 100}ms`,
-        transitionDuration: '600ms'
-      }}
-    >
-      <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
-        <div className="flex-1">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-            {job.role}
-          </h3>
-          <p className="text-xl text-blue-600 dark:text-blue-400 font-semibold mt-1">
-            {job.company}
-          </p>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{job.description}</p>
+    <m.li variants={fadeUp} className="group relative pl-8 sm:pl-10">
+      <span
+        aria-hidden="true"
+        className="absolute left-[-5px] top-2 h-[10px] w-[10px] rounded-full border-2 border-text-dim bg-ink-base transition group-hover:border-accent group-hover:bg-accent group-hover:shadow-glow-sm"
+      />
+      {isHead && (
+        <span className="absolute left-[-46px] top-0.5 hidden rounded border border-accent/40 bg-accent-dim px-1.5 py-0.5 font-mono text-[10px] text-accent lg:inline">
+          HEAD
+        </span>
+      )}
+
+      <div className="rounded-lg border border-ink-border bg-ink-surface p-6 transition group-hover:border-accent/40 group-hover:shadow-glow-sm">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-text-dim">
+          <span className="text-accent">{job.company.toLowerCase()}</span>
+          <span aria-hidden="true">·</span>
+          <span>{job.location.toLowerCase()}</span>
+          <span className="ml-auto rounded border border-ink-border px-2 py-0.5">
+            {job.period}
+          </span>
         </div>
-        <div className="mt-2 md:mt-0 text-gray-600 dark:text-gray-400 md:text-right md:ml-4">
-          <p className="font-medium whitespace-nowrap">{job.period}</p>
-          <p className="text-sm">{job.location}</p>
-        </div>
+
+        <h3 className="mt-3 text-lg font-semibold text-text-bright md:text-xl">{job.role}</h3>
+        <p className="mt-1 text-sm italic text-text-dim">{job.description}</p>
+
+        <ul className="mt-4 space-y-2">
+          {job.highlights.map((highlight) => (
+            <li key={highlight} className="flex gap-3 text-sm leading-relaxed">
+              <span className="select-none font-mono text-accent" aria-hidden="true">
+                +
+              </span>
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="space-y-3 mt-6">
-        {job.highlights.map((highlight, idx) => (
-          <li key={idx} className="flex items-start group/item">
-            <span className="text-blue-600 dark:text-blue-400 mr-3 mt-1 flex-shrink-0 transition-transform group-hover/item:scale-125">▹</span>
-            <span className="text-gray-700 dark:text-gray-300 leading-relaxed">{highlight}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    </m.li>
   );
 }
 
 export default function Experience() {
-  const [ref, isVisible] = useScrollAnimation();
-
   return (
-    <section id="experience" className="py-20 px-6 bg-gray-50 dark:bg-gray-800 transition-colors">
-      <div className="max-w-6xl mx-auto">
-        <h2
-          ref={ref}
-          className={`text-4xl md:text-5xl font-bold mb-16 text-center dark:text-white transition-all duration-600 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+    <section id="experience" className="px-6 py-24">
+      <div className="mx-auto max-w-4xl">
+        <SectionHeading index="01" title="Experience" slug="experience" />
+
+        <m.ol
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="relative space-y-8 border-l border-ink-border lg:ml-12"
         >
-          Experience
-        </h2>
-        <div className="space-y-12">
           {experience.map((job, index) => (
-            <ExperienceCard key={index} job={job} index={index} />
+            <ExperienceEntry key={`${job.company}-${job.period}`} job={job} isHead={index === 0} />
           ))}
-        </div>
+        </m.ol>
       </div>
     </section>
   );

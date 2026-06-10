@@ -1,5 +1,6 @@
-import { DarkModeProvider } from './context/DarkModeContext';
+import { LazyMotion, domAnimation } from 'motion/react';
 import Navigation from './components/Navigation';
+import ScrollProgress from './components/ScrollProgress';
 import Hero from './components/Hero';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
@@ -7,11 +8,13 @@ import Education from './components/Education';
 import Skills from './components/Skills';
 import Awards from './components/Awards';
 import Contact from './components/Contact';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <DarkModeProvider>
-      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+    <LazyMotion features={domAnimation} strict>
+      <div className="min-h-screen bg-ink-base font-sans text-text-body">
+        <ScrollProgress />
         <Navigation />
         <main>
           <Hero />
@@ -22,15 +25,9 @@ function App() {
           <Awards />
           <Contact />
         </main>
-        <footer className="bg-gray-900 dark:bg-gray-950 text-white py-8 transition-colors">
-          <div className="max-w-6xl mx-auto px-6 text-center">
-            <p className="text-gray-400">
-              © {new Date().getFullYear()} Peter Phoenix
-            </p>
-          </div>
-        </footer>
+        <Footer />
       </div>
-    </DarkModeProvider>
+    </LazyMotion>
   );
 }
 

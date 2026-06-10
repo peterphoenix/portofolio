@@ -178,6 +178,17 @@ export const awards = [
   }
 ];
 
+export const skillCategories = [
+  { key: 'languages', label: 'languages' },
+  { key: 'frameworks', label: 'frameworks' },
+  { key: 'databases', label: 'databases' },
+  { key: 'cloud', label: 'cloud-infra' },
+  { key: 'messageQueues', label: 'message-queues' },
+  { key: 'orchestration', label: 'orchestration' },
+  { key: 'tools', label: 'tools' },
+  { key: 'other', label: 'other' },
+];
+
 export const skills = {
   languages: ["Go", "Java", "JavaScript", "Python", "C", "C++", "HTML", "CSS"],
   frameworks: ["REST API", "RPC", "Go-Chi", "Spring Boot"],
