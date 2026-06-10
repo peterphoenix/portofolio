@@ -34,7 +34,7 @@ export default {
         'glow-sm': '0 0 12px -4px rgba(0, 224, 164, 0.4)',
       },
       backgroundImage: {
-        'grid-dots': 'radial-gradient(circle, #23232f 1px, transparent 1px)',
+        'grid-dots': 'radial-gradient(circle, #2e2e3d 1px, transparent 1px)',
       },
       keyframes: {
         blink: {

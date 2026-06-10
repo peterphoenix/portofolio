@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { m } from 'motion/react';
 import { experience } from '../data/portfolioData';
 import SectionHeading from './ui/SectionHeading';
 import { fadeUp, staggerContainer, viewport } from '../lib/motionVariants';
 
-function ExperienceEntry({ job, isHead }) {
+function ExperienceEntry({ job, isHead, defaultOpen }) {
+  const [open, setOpen] = useState(defaultOpen);
+
   return (
     <m.li variants={fadeUp} className="group relative pl-8 sm:pl-10">
       <span
@@ -29,16 +32,28 @@ function ExperienceEntry({ job, isHead }) {
         <h3 className="mt-3 text-lg font-semibold text-text-bright md:text-xl">{job.role}</h3>
         <p className="mt-1 text-sm italic text-text-dim">{job.description}</p>
 
-        <ul className="mt-4 space-y-2">
-          {job.highlights.map((highlight) => (
-            <li key={highlight} className="flex gap-3 text-sm leading-relaxed">
-              <span className="select-none font-mono text-accent" aria-hidden="true">
-                +
-              </span>
-              <span>{highlight}</span>
-            </li>
-          ))}
-        </ul>
+        {open && (
+          <ul className="mt-4 space-y-2">
+            {job.highlights.map((highlight) => (
+              <li key={highlight} className="flex gap-3 text-sm leading-relaxed">
+                <span className="select-none font-mono text-accent" aria-hidden="true">
+                  +
+                </span>
+                <span>{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {!defaultOpen && (
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            className="mt-4 font-mono text-xs text-text-dim transition-colors hover:text-accent"
+          >
+            {open ? '[ - collapse ]' : `[ + expand ${job.highlights.length} highlights ]`}
+          </button>
+        )}
       </div>
     </m.li>
   );
@@ -58,7 +73,12 @@ export default function Experience() {
           className="relative space-y-8 border-l border-ink-border lg:ml-12"
         >
           {experience.map((job, index) => (
-            <ExperienceEntry key={`${job.company}-${job.period}`} job={job} isHead={index === 0} />
+            <ExperienceEntry
+              key={`${job.company}-${job.period}`}
+              job={job}
+              isHead={index === 0}
+              defaultOpen={index < 3}
+            />
           ))}
         </m.ol>
       </div>
