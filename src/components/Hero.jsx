@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { m, useReducedMotion } from 'motion/react';
 import { ArrowDown, FileDown, Mail } from 'lucide-react';
+import GithubIcon from './ui/GithubIcon';
 import LinkedinIcon from './ui/LinkedinIcon';
 import TerminalPrompt from './ui/TerminalPrompt';
 import { personalInfo } from '../data/portfolioData';
@@ -142,6 +143,15 @@ export default function Hero() {
             >
               <LinkedinIcon size={15} />
               [ linkedin ]
+            </a>
+            <a
+              href={`https://${personalInfo.github}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded border border-ink-edge px-4 py-2 text-xs text-text-body transition hover:border-accent hover:text-accent sm:text-sm"
+            >
+              <GithubIcon size={15} />
+              [ github ]
             </a>
           </m.div>
         </m.div>

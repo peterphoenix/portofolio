@@ -16,6 +16,7 @@ const HELP_LINES = [
   '  ls projects      list featured projects',
   '  cat resume.pdf   download my resume',
   '  open linkedin    open my profile',
+  '  open github      see my code',
   '  mail peter       get in touch',
   '  clear            clear the terminal',
   "  ...and sudo might get you somewhere",
@@ -116,6 +117,11 @@ export default function TerminalPrompt({ apiRef }) {
     if (['open linkedin', 'linkedin'].includes(lower)) {
       push(cmd, ['opening linkedin ...']);
       later(400, () => window.open(`https://${personalInfo.linkedin}`, '_blank', 'noopener'));
+      return;
+    }
+    if (['open github', 'github'].includes(lower)) {
+      push(cmd, ['opening github ...']);
+      later(400, () => window.open(`https://${personalInfo.github}`, '_blank', 'noopener'));
       return;
     }
     if (['mail peter', 'mail', 'contact', 'email'].includes(lower)) {

@@ -1,5 +1,6 @@
 import { m } from 'motion/react';
 import { FileDown, Mail, Phone } from 'lucide-react';
+import GithubIcon from './ui/GithubIcon';
 import LinkedinIcon from './ui/LinkedinIcon';
 import { personalInfo } from '../data/portfolioData';
 import SectionHeading from './ui/SectionHeading';
@@ -13,6 +14,12 @@ const LINKS = [
     label: 'LinkedIn',
     href: `https://${personalInfo.linkedin}`,
     Icon: LinkedinIcon,
+    external: true,
+  },
+  {
+    label: 'GitHub',
+    href: `https://${personalInfo.github}`,
+    Icon: GithubIcon,
     external: true,
   },
   { label: 'Phone', href: `tel:${personalInfo.phone}`, Icon: Phone },
