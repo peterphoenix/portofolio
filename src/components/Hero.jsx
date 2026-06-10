@@ -1,12 +1,11 @@
+import { useRef } from 'react';
 import { m, useReducedMotion } from 'motion/react';
 import { ArrowDown, FileDown, Mail } from 'lucide-react';
 import LinkedinIcon from './ui/LinkedinIcon';
+import TerminalPrompt from './ui/TerminalPrompt';
 import { personalInfo } from '../data/portfolioData';
-import useTypewriter from '../hooks/useTypewriter';
 
 const resumeUrl = `${import.meta.env.BASE_URL}resume.pdf`;
-
-const TYPED_COMMANDS = ['./resume.pdf', 'open linkedin', 'mail peter'];
 
 const terminal = {
   hidden: {},
@@ -19,18 +18,42 @@ const line = {
 };
 
 export default function Hero() {
-  const typed = useTypewriter(TYPED_COMMANDS);
   const reducedMotion = useReducedMotion();
+  const promptApi = useRef(null);
+  const sectionRef = useRef(null);
+  const spotlightRef = useRef(null);
   const bioLines = personalInfo.bio.split('. ').map((s) => (s.endsWith('.') ? s : `${s}.`));
+
+  const onMouseMove = (e) => {
+    const spot = spotlightRef.current;
+    const section = sectionRef.current;
+    if (!spot || !section) return;
+    const rect = section.getBoundingClientRect();
+    spot.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+    spot.style.setProperty('--my', `${e.clientY - rect.top}px`);
+    spot.style.opacity = '1';
+  };
+
+  const onMouseLeave = () => {
+    if (spotlightRef.current) spotlightRef.current.style.opacity = '0';
+  };
 
   return (
     <section
       id="home"
+      ref={sectionRef}
+      onMouseMove={reducedMotion ? undefined : onMouseMove}
+      onMouseLeave={reducedMotion ? undefined : onMouseLeave}
       className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 pb-16 pt-24 sm:px-6"
     >
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-grid-dots bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_65%_65%_at_50%_45%,black,transparent)]"
+      />
+      <div
+        aria-hidden="true"
+        ref={spotlightRef}
+        className="pointer-events-none absolute inset-0 bg-grid-dots-bright bg-[size:32px_32px] opacity-0 transition-opacity duration-300 [-webkit-mask-image:radial-gradient(220px_circle_at_var(--mx,50%)_var(--my,50%),black,transparent)] [mask-image:radial-gradient(220px_circle_at_var(--mx,50%)_var(--my,50%),black,transparent)]"
       />
       <div
         aria-hidden="true"
@@ -54,6 +77,7 @@ export default function Hero() {
           variants={terminal}
           initial="hidden"
           animate="visible"
+          onClick={() => promptApi.current?.focus()}
           className="p-6 font-mono text-sm md:p-10"
         >
           <m.p variants={line} className="text-text-dim">
@@ -90,10 +114,9 @@ export default function Hero() {
             ))}
           </m.div>
 
-          <m.p variants={line} className="mt-6 text-text-bright" aria-hidden="true">
-            <span className="text-accent">$</span> {typed}
-            <span className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 bg-accent animate-blink" />
-          </m.p>
+          <m.div variants={line} className="mt-6">
+            <TerminalPrompt apiRef={promptApi} />
+          </m.div>
 
           <m.div variants={line} className="mt-8 flex flex-wrap gap-3">
             <a

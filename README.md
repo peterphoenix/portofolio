@@ -9,7 +9,8 @@ A terminal-inspired "dark engineering" portfolio built with React, Vite, and Tai
 
 ## ✨ Features
 
-- 🖥️ **Terminal Hero**: `$ whoami` prompt window with a typewriter command line and blinking cursor
+- 🖥️ **Interactive Terminal Hero**: `$ whoami` prompt window — click or press `/` and actually type commands (`help`, `ls projects`, `cat resume.pdf`, `sudo hire-me`)
+- ✨ **Micro-interactions**: cursor spotlight on the hero dot-grid, scramble-decode section headings, 3D tilt on project cards
 - 🟢 **Dark Engineering Aesthetic**: Single dark theme with phosphor-green accents and glowing borders
 - 📜 **Git-log Experience Timeline**: Commit nodes with a `HEAD` tag on the current role and diff-style `+` highlights
 - 📱 **Fully Responsive**: Works seamlessly on desktop, tablet, and mobile

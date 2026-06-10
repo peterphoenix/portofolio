@@ -1,13 +1,17 @@
+import { useRef } from 'react';
 import { m } from 'motion/react';
 import { ExternalLink, Folder } from 'lucide-react';
 import { projects } from '../data/portfolioData';
 import SectionHeading from './ui/SectionHeading';
+import useTilt from '../hooks/useTilt';
 import { fadeUp, staggerContainer, viewport } from '../lib/motionVariants';
 
 const slugify = (title) => title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 function ProjectCard({ project }) {
   const slug = slugify(project.title);
+  const cardRef = useRef(null);
+  const { onMouseMove, onMouseLeave } = useTilt(cardRef, 5);
   const Wrapper = project.link ? 'a' : 'div';
   const wrapperProps = project.link
     ? { href: project.link, target: '_blank', rel: 'noopener noreferrer' }
@@ -17,7 +21,10 @@ function ProjectCard({ project }) {
     <m.div variants={fadeUp} className="h-full">
       <Wrapper
         {...wrapperProps}
-        className="group flex h-full flex-col rounded-lg border border-ink-border bg-ink-surface p-6 transition hover:-translate-y-1 hover:border-accent/40 hover:shadow-glow-sm"
+        ref={cardRef}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        className="group flex h-full flex-col rounded-lg border border-ink-border bg-ink-surface p-6 transition will-change-transform hover:border-accent/40 hover:shadow-glow-sm"
       >
         <div className="flex items-center gap-2 font-mono text-xs text-text-dim">
           <Folder size={14} className="shrink-0 text-accent" aria-hidden="true" />

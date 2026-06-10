@@ -35,6 +35,7 @@ export default {
       },
       backgroundImage: {
         'grid-dots': 'radial-gradient(circle, #2e2e3d 1px, transparent 1px)',
+        'grid-dots-bright': 'radial-gradient(circle, rgba(0, 224, 164, 0.45) 1px, transparent 1px)',
       },
       keyframes: {
         blink: {
